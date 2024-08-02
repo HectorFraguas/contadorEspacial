@@ -1,3 +1,15 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const launchTime = urlParams.get('launchTime'); // Espera una hora en formato 'HH:MM'
+
+    if (launchTime) {
+        document.getElementById('launchTime').value = launchTime;
+        startCountdown(); // Inicia el contador automáticamente si launchTime está presente
+    }
+
+    checkUrlParams(); // Otras verificaciones de URL si las necesitas
+});
+
 let interval;
 
 function startCountdown() {
@@ -16,45 +28,17 @@ function startCountdown() {
     }
 
     const countdownElement = document.getElementById('countdown');
-
-    function updateCountdown() {
+    interval = setInterval(function() {
         const now = new Date();
         const difference = launchTimeUTC - now;
-        let seconds = Math.floor(difference / 1000);
+        const absDifference = Math.abs(difference);
 
-        let prefix = "T - ";
-        if (seconds < 0) {
-            prefix = "T + ";
-            seconds = -seconds;
-        }
+        let prefix = difference < 0 ? "T + " : "T - ";
+        const totalSeconds = Math.floor(absDifference / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        seconds = seconds % 60;
-
-        if (difference > -1000 && difference <= 0) {
-            // Manejar el segundo exacto del evento de lanzamiento
-            countdownElement.textContent = "T + 00 : 00 : 00";
-        } else {
-            countdownElement.textContent = `${prefix}${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
-        }
-    }
-
-    updateCountdown();
-    interval = setInterval(updateCountdown, 1000);
+        countdownElement.textContent = `${prefix}${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
 }
-
-function checkUrlParams() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('showCountdown')) {
-        document.getElementById('title').classList.add('hidden');
-        document.getElementById('input-container').classList.add('hidden');
-        const launchTime = urlParams.get('launchTime');
-        if (launchTime) {
-            document.getElementById('launchTime').value = launchTime;
-            startCountdown();
-        }
-    }
-}
-
-document.addEventListener('DOMContentLoaded', checkUrlParams);
