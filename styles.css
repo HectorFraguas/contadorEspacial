@@ -25,3 +25,7 @@ input, button {
     font-weight: bold;
     font-family: 'Bebas Neue', sans-serif;
 }
+
+.hidden {
+    display: none;
+}

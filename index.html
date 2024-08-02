@@ -9,10 +9,12 @@
 </head>
 <body>
     <div class="container">
-        <h1>Cuenta Regresiva de Lanzamiento</h1>
-        <label for="launchTime">Hora de Lanzamiento (UTC):</label>
-        <input type="time" id="launchTime" name="launchTime" required>
-        <button onclick="startCountdown()">Iniciar Cuenta Regresiva</button>
+        <h1 id="title">Cuenta Regresiva de Lanzamiento</h1>
+        <div id="input-container">
+            <label for="launchTime">Hora de Lanzamiento (UTC):</label>
+            <input type="time" id="launchTime" name="launchTime" required>
+            <button onclick="startCountdown()">Iniciar Cuenta Regresiva</button>
+        </div>
         <div id="countdown"></div>
     </div>
     <script src="script.js"></script>
