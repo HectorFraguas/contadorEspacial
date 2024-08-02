@@ -23,8 +23,8 @@ function startCountdown() {
 
         let prefix = "T - ";
 
-        if (difference <= 0) {
-            difference = now - launchTimeUTC;
+        if (difference < 0) {
+            difference = Math.abs(difference);
             prefix = "T + ";
         }
 
@@ -44,7 +44,4 @@ function checkUrlParams() {
     if (urlParams.has('showCountdown')) {
         document.getElementById('title').classList.add('hidden');
         document.getElementById('input-container').classList.add('hidden');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', checkUrlParams);
+        const launchTime = urlParams.get('launchTime');
