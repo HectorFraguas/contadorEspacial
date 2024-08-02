@@ -26,6 +26,11 @@ function startCountdown() {
         if (difference < 0) {
             difference = Math.abs(difference);
             prefix = "T + ";
+
+            // Asegurarse de que el contador no se repita al llegar a 0
+            if (Math.floor(difference / 1000) === 0) {
+                difference = 1000; // 1 segundo en positivo
+            }
         }
 
         const hours = Math.floor(difference / (1000 * 60 * 60));
@@ -45,3 +50,11 @@ function checkUrlParams() {
         document.getElementById('title').classList.add('hidden');
         document.getElementById('input-container').classList.add('hidden');
         const launchTime = urlParams.get('launchTime');
+        if (launchTime) {
+            document.getElementById('launchTime').value = launchTime;
+            startCountdown();
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', checkUrlParams);
