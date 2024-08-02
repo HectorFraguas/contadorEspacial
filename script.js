@@ -19,25 +19,25 @@ function startCountdown() {
 
     function updateCountdown() {
         const now = new Date();
-        let difference = launchTimeUTC - now;
+        const difference = launchTimeUTC - now;
+        let seconds = Math.floor(difference / 1000);
 
         let prefix = "T - ";
-
-        if (difference < 0) {
-            difference = Math.abs(difference);
+        if (seconds < 0) {
             prefix = "T + ";
-
-            // Asegurarse de que el contador no se repita al llegar a 0
-            if (Math.floor(difference / 1000) === 0) {
-                difference = 1000; // 1 segundo en positivo
-            }
+            seconds = -seconds;
         }
 
-        const hours = Math.floor(difference / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        seconds = seconds % 60;
 
-        countdownElement.textContent = `${prefix}${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+        if (difference > -1000 && difference <= 0) {
+            // Manejar el segundo exacto del evento de lanzamiento
+            countdownElement.textContent = "T + 00 : 00 : 00";
+        } else {
+            countdownElement.textContent = `${prefix}${hours.toString().padStart(2, '0')} : ${minutes.toString().padStart(2, '0')} : ${seconds.toString().padStart(2, '0')}`;
+        }
     }
 
     updateCountdown();
