@@ -21,11 +21,11 @@ function startCountdown() {
         const now = new Date();
         let difference = launchTimeUTC - now;
 
-        let prefix = "T-";
+        let prefix = "T - ";
 
         if (difference <= 0) {
             difference = now - launchTimeUTC;
-            prefix = "T+";
+            prefix = "T + ";
         }
 
         const hours = Math.floor(difference / (1000 * 60 * 60));
